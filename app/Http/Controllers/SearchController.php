@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\Http;
 use Response;
 use Illuminate\Http\Request;
 
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
-
 
 class SearchController extends Controller
 {
@@ -20,22 +17,58 @@ class SearchController extends Controller
 	 */
 	public function index($stringSearch)
 	{
-		$client = new Client();
-		$url = "https://itunes.apple.com/search?term=$stringSearch";
-		$result = $client->post($url);
-		#$result = $response->getBody();
 
+		$data1 = array();
+		$url1 = "https://itunes.apple.com/search?term=$stringSearch&entity=musicVideo";
+		$response1 = Http::post($url1);
 
-		$url = "http://ws.cdyne.com/ip2geo/ip2geo.asmx?wsdl";
-		$client = new SoapClient($url, [ "trace" => 1 ] );
-		$resultado = $client->ResolveIP( [ "ipAddress" => $argv[1], "licenseKey" => "0" ] );
+		if ($response1->ok()) {
+			foreach ($response1->json()['results'] as $value) {
+				$aux = $value;
+				$aux['source'] = 'itunes';
+				$data1[] = $aux;
+			}
+		}
 
+		#----------------------------------------------------------------
+
+		$data2 = array();
+		$url2 = "http://api.tvmaze.com/search/shows?q=$stringSearch";
+		$response2 = Http::get($url2);
+
+		if ($response2->ok()) {
+			foreach ($response2->json() as $value) {
+				$aux = $value['show'];
+				$aux['source'] = 'tvmaze';
+				$data2[] = $aux;
+			}
+		}
+
+		#----------------------------------------------------------------
+
+		$data3 = array();
+		$url3 = "http://www.crcind.com/csp/samples/SOAP.Demo.cls?soap_method=GetListByName&name=$stringSearch";
+		$xmlSoapResponse = file_get_contents($url3);
+		$pattern = "(<GetListByNameResult>[\s\S]*?<\/GetListByNameResult>)";
+		header('Content-type: application/json');
+
+		if (preg_match_all($pattern, $xmlSoapResponse, $matches)) {
+			foreach (simplexml_load_string($matches[0][0])->PersonIdentification as $value) {
+				$aux = $value;
+				$aux->source = 'crcind';
+				$data3[] = $aux;
+			}
+		}
+
+		#----------------------------------------------------------------
+
+		$DataParsed = array_merge($data1,$data2,$data3);
 
 		return Response::json(array(
-			'results' => $result,
-			'results2' => $resultado,
-			'resultCount' => 1
+			'results' => $DataParsed,
+			'resultCount' => count($DataParsed)
 		), 200);
+
 	}
 
 	/**
@@ -103,4 +136,5 @@ class SearchController extends Controller
 	{
 		//
 	}
+
 }
