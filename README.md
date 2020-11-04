@@ -2,12 +2,16 @@
 
 > A Laravel-Vue SPA test project.
 
+
 ## Features
 
 - Laravel 8
 - Vue + VueRouter + Vuex
 - Pages with dynamic modular components
-- bootstrap-vue
+- Responsive desing
+- Bootstrap-vue
+- Heroku deployment
+- Api-doc implementation
 
 
 ## Prerequisites
@@ -19,6 +23,7 @@
    * Node
    * Npm
 
+
 ## Installation
 
 - `clone project`
@@ -26,7 +31,9 @@
 - `composer install`
 - `npm install`
 
+
 ## Usage
+
 
 #### Development
 
@@ -35,12 +42,14 @@
 php artisan serve
 
 # Build and run
-npm run watch
+npm run dev
 ```
+
 
 #### Api documentation
 
 * project-folder / docs / index.html
+
 
 #### View
 
@@ -54,6 +63,7 @@ npm run dev
 # Go to browser
 http://127.0.0.1:8000/
 ```
+
 
 #### Demo
 
