@@ -6,16 +6,14 @@
 */
 
 /**
-	*	@api {get} /{subdomain}/{version_id}/activities Get Activities
-	*	@apiName ActivityControllerIndex
-	*	@apiGroup Activities
+	*	@api {get} /search/{stringSearch} Search
+	*	@apiName Search
+	*	@apiGroup Search
 	*	@apiVersion 1.0.0
-	*	@apiDescription This service allows you to obtain the list of activities.
+	*	@apiDescription This service allows to obtain the results of three different apis.
 	*
 	*
-	*	@apiParam (headerParam) {String} Authorization Bearer access token.
-	*	@apiParam (urlParam) {String} subdomain Subdomain.
-	*	@apiParam (urlParam) {String} version_id Version id.
+	*	@apiParam (urlParam) {String} stringSearch Search parameter.
 	*
 	*
 	*	@apiSuccess {Json} data Data with activities information.
@@ -24,19 +22,6 @@
 	*	HTTP/1.1 200 OK
 	*	{
 	*		"data": {
-	*			"activities": [
-	*				{
-	*					"id": 1,
-	*					"name": "Rueda de negocios",
-	*					"description": null,
-	*					"datetime": null,
-	*					"type": "networking",
-	*					"typeName": "activity.type.networking",
-	*					"status": 0,
-	*					"statusName": null,
-	*					"activityUuid": "enexpro-1-1e1887bf4cb5d3c7a9caac76a4ebfa74"
-	*				}
-	*			]
 	*		}
 	*	}
 	*

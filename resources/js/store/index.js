@@ -64,7 +64,8 @@ export default new Vuex.Store({
 
 		search ({ state, commit }, [context]) {
 			commit('loading', true);
-			context.axios.get(`http://127.0.0.1:8000/api/search/${context.parseSearch}`)
+			process.env.MIX_APP_URL;
+			context.axios.get(`/search/${context.parseSearch}`)
 			.then((response) => {
 				console.log(response);
 				commit('updated', {

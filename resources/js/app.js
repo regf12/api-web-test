@@ -1,6 +1,9 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
 import App from './components/App';
+
+
+/* Pluggins and components */
+import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import store from "./store";
@@ -18,7 +21,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
-import axios from 'axios'
+var axios = require('./pluggins/axios');
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
@@ -29,6 +32,9 @@ library.add(fas);
 Vue.component('fa', FontAwesomeIcon);
 
 Vue.component('navigation', require('./components/Navigation.vue').default);
+
+// Config production state
+Vue.config.productionTip = false;
 
 const app = new Vue({
 	el: '#app',
