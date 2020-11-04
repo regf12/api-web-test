@@ -38,6 +38,10 @@ php artisan serve
 npm run watch
 ```
 
+#### Api documentation
+
+* project-foldel/docs/index.html
+
 #### View
 
 ```bash
