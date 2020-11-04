@@ -22,7 +22,5 @@ Route::namespace("App\\Http\\Controllers")->group(function () {
 
 	Route::get("/search/{stringSearch}", "SearchController@index");
 
-	Route::get("/search/test/{stringSearch}", "SearchController@show");
-
 });
 

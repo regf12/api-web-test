@@ -3,9 +3,9 @@
 
 		<b-row class="my-3 px-3">
 			<b-col cols="12">
-				<b-form @submit="onSubmit" @reset="inputSearch=''">
+				<b-form @submit="onSubmit($event)" @reset="inputSearch=''">
 					<b-input-group class="mt-3">
-						<b-form-input v-model="inputSearch" placeholder="Enter your search"></b-form-input>
+						<b-form-input v-model="inputSearch" placeholder="Enter your search and hit enter"></b-form-input>
 						<b-input-group-append class="bg-light">
 							<b-button type="reset" variant="outline-danger" class="border-none" v-if="inputSearch!=''">
 								<fa icon="trash-alt"></fa>
@@ -23,9 +23,9 @@
 		</b-row>
 
 		<b-overlay :show="loading" rounded="sm" variant="transparent" opacity="0.90">
-			<b-row class="my-3 content-cards">
+			<transition-group name="list" tag="div" class="row my-3 content-cards">
 
-				<b-col cols="12" lg="6" xl="4" v-for="(item,index) in results" :key="index">
+				<b-col cols="12" lg="6" xl="4" v-for="(item,index) in results" :key="'a'+index" class="">
 					<a class="cards" href="#">
 
 						<b-img left fluid thumbnail img-left class="lazyload m-2 img-item-cover" :data-src="imgfiles[item.source]" :alt="`${item.source} services`"></b-img>
@@ -40,7 +40,7 @@
 					</a>
 				</b-col>
 
-			</b-row>
+			</transition-group>
 		</b-overlay>
 
 	</b-container>
@@ -90,7 +90,8 @@ export default {
 			DistpatchSearch: 'search'
 		}),
 
-		onSubmit(){
+		onSubmit(event){
+			if (event) event.preventDefault()
 			if(this.inputSearch.length>3)this.DistpatchSearch([this])
 		}
 	}
