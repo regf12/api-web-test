@@ -23,8 +23,8 @@ class SearchController extends Controller
 		$data = $this->multipleRequest($urls);
 
 		return Response::json(array(
-			'results' => $data,
-			'resultCount' => count($data)
+			'resultCount' => count($data),
+			'results' => $data
 		), 200);
 	}
 

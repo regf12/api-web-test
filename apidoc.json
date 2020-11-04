@@ -6,7 +6,7 @@
 	"description": "Documentation Api Web Test",
 	"warn": "Warn",
 	"title": "Api Web Test Documentation",
-	"url": "https://api-web-test.herokuapp.com/",
+	"url": "https://api-web-test.herokuapp.com/api",
 	"defaultVersion": "0.0.0",
 
 	"header": {
@@ -16,11 +16,11 @@
 	"generator": {
 		"name": "api-web-test",
 		"time": "2019-03-22T15:37:41.636Z",
-		"url": "https://api-web-test.herokuapp.com/",
+		"url": "https://api-web-test.herokuapp.com/api",
 		"version": "0.0.1"
 	},
 
-	"sampleUrl": "https://api-web-test.herokuapp.com/",
+	"sampleUrl": "https://api-web-test.herokuapp.com/api",
 	"template": {
 		"forceLanguage": "en",
 		"withGenerator": true,
