@@ -2,16 +2,124 @@
   transition: all 0.5s ease-out;
 }
 
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+#content-page {
+  height: 100vh;
+}
+
+#content-page #content-search {
+  height: 100%;
+}
+
+#content-page #content-search .b-overlay-wrap {
+  height: 80%;
+}
+
+#content-page #content-search .b-overlay-wrap > div {
+  height: 100%;
+}
+
 body {
   margin: 0;
+  height: 100vh;
+  background-image: url("https://res.cloudinary.com/regf/image/upload/v1604441077/test/concert-4768496_1920.jpg");
+  background-size: 100vw cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+  overflow-y: hidden;
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: -1;
+}
+
+#navbar-content {
+  position: absolute;
+  width: 100%;
+}
+
+#navbar-content .navbar {
+  position: fixed;
+  background: linear-gradient(black, rgba(0, 0, 0, 0));
+}
+
+.input-group-append {
+  border-radius: 0 5px 5px 0;
+}
+
+.border-none {
+  border: none !important;
+}
+
+.content-cards {
+  display: -webkit-box;
+  overflow: auto;
+}
+
+.content-cards::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.content-cards::-webkit-scrollbar:vertical {
+  width: 10px;
+}
+
+.content-cards::-webkit-scrollbar-button:increment,
+.content-cards::-webkit-scrollbar-button {
+  display: none;
+}
+
+.content-cards::-webkit-scrollbar:horizontal {
+  height: 10px;
 }
 
 .el-header {
   padding: 0 0 0 0 !important;
 }
 
+h4 {
+  color: inherit;
+  text-decoration: none;
+  color: #262626;
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+a {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #666666;
+}
+
+a.small {
+  font-size: 14px;
+}
+
+hr {
+  border-color: var(--hr-color);
+  margin: 20px 0;
+}
+
 .text {
   font-size: 14px;
+}
+
+.count-search {
+  color: gray;
 }
 
 .item {
@@ -22,57 +130,13 @@ body {
   width: 480px;
 }
 
-.img-item-cover img {
+.img-item-cover {
   max-width: 150px;
   max-height: 150px;
   width: 100%;
   height: 100%;
   -o-object-fit: contain;
      object-fit: contain;
-}
-
-h4 {
-  color: inherit;
-  text-decoration: none;
-}
-
-hr {
-  border-color: var(--hr-color);
-  margin: 20px 0;
-}
-
-.card .card-body .card-text {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.card .card-body h4 {
-  position: relative;
-  padding: 5px 5px 3px 5px;
-}
-
-.card .card-body h4::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(to right, #b47dcd, #e878a2, #eb85ab);
-  z-index: 1;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s ease-in-out;
-}
-
-.card .card-body h4:hover::before {
-  transform: scaleX(1);
-}
-
-.card .card-body[data-animation=to-left] h4::before {
-  transform-origin: right;
 }
 
 .line-clamp {
@@ -83,58 +147,9 @@ hr {
   overflow: hidden;
 }
 
-/* .card:hover {
-	box-shadow: 0px 4px 4px rgba(38, 38, 38, 0.2);
-	top: -2px;
-	border: 1px solid #cccccc;
-	background-color: white;
-}
- */
-
-h4 {
-  color: #262626;
-  font-size: 17px;
-  line-height: 24px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-p {
-  font-size: 17px;
-  font-weight: 400;
-  line-height: 20px;
-  color: #666666;
-}
-
-p.small {
-  font-size: 14px;
-}
-
-.go-corner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  overflow: hidden;
-  top: 0;
-  right: 0;
-  background-color: #00838d;
-  border-radius: 0 4px 0 32px;
-}
-
-.go-arrow {
-  margin-top: -4px;
-  margin-right: -4px;
-  color: white;
-  font-family: courier, sans;
-}
-
 .cards {
-  display: block;
+  display: flex;
   position: relative;
-  /* max-width: 262px; */
   background-color: #f2f8f9;
   border-radius: 4px;
   padding: 10px 10px;
@@ -159,11 +174,7 @@ p.small {
   transition: transform 0.5s ease-out;
 }
 
-.cards:hover:before {
-  transform: scale(21);
-}
-
-.cards:hover p {
+.cards:hover a {
   transition: all 0.3s ease-out;
   color: rgba(255, 255, 255, 0.8);
 }
@@ -171,5 +182,38 @@ p.small {
 .cards:hover h4 {
   transition: all 0.3s ease-out;
   color: #ffffff;
+}
+
+.cards:hover:before {
+  transform: scale(21);
+}
+
+.cards img {
+  max-width: 120px;
+}
+
+.cards .description {
+  height: 120px;
+}
+
+.go-corner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  background-color: #00838d;
+  border-radius: 0 4px 0 32px;
+}
+
+.go-arrow {
+  margin-top: -4px;
+  margin-right: -4px;
+  color: white;
+  font-family: courier, sans;
 }
 

@@ -1,19 +1,13 @@
 import Home from '../views/Home.vue'
-import Documentation from '../views/Documentation.vue'
 
 export default {
-    mode: 'history',
+	mode: 'history',
 
-    routes: [
-        {
-            path: '/',
-            name: 'home',
-            component: Home,
-        },
-        {
-            path: '/documentation',
-            name: 'documentation',
-            component: Documentation,
-        }
-    ]
+	routes: [
+		{
+			path: '/',
+			name: 'home',
+			component: Home
+		}
+	]
 }

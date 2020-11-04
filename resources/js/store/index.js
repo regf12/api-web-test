@@ -5,6 +5,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 
 	state: {
+		request: null,
+
 		results: [],
 		resultCount: 0,
 		loading: false,
@@ -38,11 +40,11 @@ export default new Vuex.Store({
 
 	mutations: {
 
-		loading (state , payload) {
+		loading (state, payload) {
 			state.loading = payload;
 		},
 
-		updated (state , payload) {
+		updated (state, payload) {
 			state.resultCount = payload.resultCount;
 			state.results = payload.results.sort(function (a, b) {
 				if ( a[state.namefiles[a.source]] > b[state.namefiles[b.source]] ) {
@@ -60,9 +62,8 @@ export default new Vuex.Store({
 
 	actions: {
 
-		search ({ commit }, [context]) {
+		search ({ state, commit }, [context]) {
 			commit('loading', true);
-
 			context.axios.get(`http://127.0.0.1:8000/api/search/${context.parseSearch}`)
 			.then((response) => {
 				console.log(response);

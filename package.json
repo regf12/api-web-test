@@ -20,6 +20,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.1",
         "@fortawesome/fontawesome-svg-core": "^1.2.32",
         "@fortawesome/free-brands-svg-icons": "^5.15.1",
         "@fortawesome/free-regular-svg-icons": "^5.15.1",
@@ -29,9 +30,12 @@
         "bootstrap-vue": "^2.18.1",
         "element-ui": "^2.13.2",
         "js-cookie": "^2.2.1",
+        "lazysizes": "^5.2.2",
         "sweetalert2": "^10.7.0",
         "vue": "^2.6.12",
         "vue-axios": "^3.1.2",
+        "vue-elucidate": "^0.12.0",
+        "vue-parallaxy": "^1.1.1",
         "vue-router": "^3.4.7",
         "vuex": "^3.5.1",
         "vuex-router-sync": "^5.0.0"

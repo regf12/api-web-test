@@ -4,87 +4,98 @@
   transition: all 0.5s ease-out;
 }
 
+.bg-transparent{
+	background-color: transparent !important;
+}
+
+#content-page{
+	height: 100vh;
+
+	#content-search{
+		height: 100%;
+
+		.b-overlay-wrap{
+			height: 80%;
+
+			&>div{
+				height: 100%;
+			}
+		}
+	}
+}
+
 body{
 	margin: 0;
+	height: 100vh;
+
+	background-image: url("https://res.cloudinary.com/regf/image/upload/v1604441077/test/concert-4768496_1920.jpg");
+	background-size: 100vw cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+
+	position:relative;
+	overflow-y: hidden;
+
+	&::after {
+		content:"";
+		position:absolute;
+		top:0;
+		left:0;
+		width:100vw;
+		height:100vh;
+		background:rgba(0,0,0,0.8);
+		z-index:-1;
+	}
+}
+
+#navbar-content{
+	position: absolute;
+	width: 100%;
+
+	.navbar{
+		position: fixed;
+		background: linear-gradient(black, rgb(0 0 0 / 0));
+	}
+}
+
+.input-group-append{
+	border-radius: 0 5px 5px 0;
+}
+
+.border-none{
+	border: none !important;
+}
+
+.content-cards{
+	display: -webkit-box;
+	overflow:auto;
+
+	&::-webkit-scrollbar {
+		-webkit-appearance: none;
+	}
+
+	&::-webkit-scrollbar:vertical {
+			width:10px;
+	}
+
+	&::-webkit-scrollbar-button:increment,
+	&::-webkit-scrollbar-button {
+			display: none;
+	}
+
+	&::-webkit-scrollbar:horizontal {
+			height: 10px;
+	}
+
 }
 
 .el-header{
 	padding: 0 0 0 0 !important;
 }
 
-.text {
-	font-size: 14px;
-}
-
-.item {
-	padding: 18px 0;
-}
-
-.box-card {
-	width: 480px;
-}
-
-.img-item-cover{
-	max-width: 150px;
-	max-height: 150px;
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
-}
-
 h4{
   color: inherit;
   text-decoration: none;
-}
-
-hr {
-  border-color: var(--hr-color);
-  margin: 20px 0;
-}
-
-.card .card-body .card-text{
-	height: 100%;
-  display: flex;
-	flex-direction: column;
-  justify-content: space-between;
-}
-
-.card .card-body h4{
-  position: relative;
-  padding: 5px 5px 3px 5px;
-}
-
-.card .card-body h4::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(to right, #b47dcd, #e878a2, #eb85ab);
-  z-index: 1;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s ease-in-out;
-}
-
-.card .card-body h4:hover::before {
-  transform: scaleX(1);
-}
-
-.card .card-body[data-animation="to-left"] h4::before {
-  transform-origin: right;
-}
-
-.line-clamp {
-	display: -webkit-box;
-	line-clamp: 2;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-}
-
-h4 {
   color: #262626;
   font-size: 17px;
   line-height: 24px;
@@ -103,31 +114,46 @@ a {
   }
 }
 
-.go-corner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  overflow: hidden;
-  top: 0;
-  right: 0;
-  background-color: #00838d;
-  border-radius: 0 4px 0 32px;
+hr {
+  border-color: var(--hr-color);
+  margin: 20px 0;
 }
 
-.go-arrow {
-  margin-top: -4px;
-  margin-right: -4px;
-  color: white;
-  font-family: courier, sans;
+.text {
+	font-size: 14px;
+}
+
+.count-search{
+	color: gray;
+}
+
+.item {
+	padding: 18px 0;
+}
+
+.box-card {
+	width: 480px;
+}
+
+.img-item-cover{
+	max-width: 150px;
+	max-height: 150px;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.line-clamp {
+	display: -webkit-box;
+	line-clamp: 2;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
 
 .cards {
-  display: block;
+  display: flex;
   position: relative;
-  /* max-width: 262px; */
   background-color: #f2f8f9;
   border-radius: 4px;
   padding: 10px 10px;
@@ -151,18 +177,46 @@ a {
     transition: transform 0.5s ease-out;
   }
 
+  &:hover {
+		a {
+			transition: all 0.3s ease-out;
+			color: rgba(255, 255, 255, 0.8);
+		}
+		h4 {
+			transition: all 0.3s ease-out;
+			color: #ffffff;
+		}
+	}
+
   &:hover:before {
     transform: scale(21);
-  }
+	}
+
+	img{
+		max-width: 120px;
+	}
+	.description{
+		height: 120px;
+	}
 }
 
-.cards:hover {
-  a {
-    transition: all 0.3s ease-out;
-    color: rgba(255, 255, 255, 0.8);
-  }
-  h4 {
-    transition: all 0.3s ease-out;
-    color: #ffffff;
-  }
+.go-corner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  background-color: #00838d;
+  border-radius: 0 4px 0 32px;
+}
+
+.go-arrow {
+  margin-top: -4px;
+  margin-right: -4px;
+  color: white;
+  font-family: courier, sans;
 }
