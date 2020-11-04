@@ -21,6 +21,8 @@
 
 ## Installation
 
+- `clone project`
+- `cd api-web-test`
 - `composer install`
 - `npm install`
 
@@ -48,3 +50,7 @@ npm run dev
 # Go to browser
 http://127.0.0.1:8000/
 ```
+
+#### Demo
+
+https://api-web-est.herokuapp.com/
