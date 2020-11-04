@@ -40,7 +40,7 @@ npm run watch
 
 #### Api documentation
 
-* project-foldel/docs/index.html
+* project-folder / docs / index.html
 
 #### View
 
