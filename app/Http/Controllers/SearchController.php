@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Http;
-
 use Response;
 use Illuminate\Http\Request;
 
@@ -17,124 +15,109 @@ class SearchController extends Controller
 	 */
 	public function index($stringSearch)
 	{
-
-		$data1 = array();
-		$url1 = "https://itunes.apple.com/search?term=$stringSearch&entity=musicVideo";
-		$response1 = Http::post($url1);
-
-		if ($response1->ok()) {
-			foreach ($response1->json()['results'] as $value) {
-				$aux = $value;
-				$aux['source'] = 'itunes';
-				$data1[] = $aux;
-			}
-		}
-
-		#----------------------------------------------------------------
-
-		$data2 = array();
-		$url2 = "http://api.tvmaze.com/search/shows?q=$stringSearch";
-		$response2 = Http::get($url2);
-
-		if ($response2->ok()) {
-			foreach ($response2->json() as $value) {
-				$aux = $value['show'];
-				$aux['source'] = 'tvmaze';
-				$data2[] = $aux;
-			}
-		}
-
-		#----------------------------------------------------------------
-
-		$data3 = array();
-		$url3 = "http://www.crcind.com/csp/samples/SOAP.Demo.cls?soap_method=GetListByName&name=$stringSearch";
-		$xmlSoapResponse = file_get_contents($url3);
-		$pattern = "(<GetListByNameResult>[\s\S]*?<\/GetListByNameResult>)";
-		header('Content-type: application/json');
-
-		if (preg_match_all($pattern, $xmlSoapResponse, $matches)) {
-			foreach (simplexml_load_string($matches[0][0])->PersonIdentification as $value) {
-				$aux = $value;
-				$aux->source = 'crcind';
-				$data3[] = $aux;
-			}
-		}
-
-		#----------------------------------------------------------------
-
-		$DataParsed = array_merge($data1,$data2,$data3);
+		$urls = array(
+			"https://itunes.apple.com/search?term=$stringSearch&entity=musicVideo",
+			"http://api.tvmaze.com/search/shows?q=$stringSearch",
+			"http://www.crcind.com/csp/samples/SOAP.Demo.cls?soap_method=GetListByName&name=$stringSearch"
+		);
+		$data = $this->multipleRequest($urls);
 
 		return Response::json(array(
-			'results' => $DataParsed,
-			'resultCount' => count($DataParsed)
+			'results' => $data,
+			'resultCount' => count($data)
 		), 200);
-
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Return an array with all the data.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @param  curl instances  $curly
+	 * @param  curl instances  $pm
+	 * @return array result
 	 */
-	public function create()
+	public function parsed($curly, $pm)
 	{
-		//
+		$result = array();
+		foreach ($curly as $key => $response) {
+			$aux = json_decode( curl_multi_getcontent($response) );
+
+			if ($aux==null) {
+				$aux2 = curl_multi_getcontent($response);
+				$pattern = "(<GetListByNameResult>[\s\S]*?<\/GetListByNameResult>)";
+				header('Content-type: application/json');
+				if (preg_match_all($pattern, $aux2, $matches)) {
+					foreach (simplexml_load_string($matches[0][0])->PersonIdentification as $value) {
+						$aux2 = $value;
+						$aux2->source = 'crcind';
+						$result[] = $aux2;
+					}
+				}
+			}else{
+				if (is_object($aux)) {
+					foreach ($aux->results as $value) {
+						$aux2 = $value;
+						$aux2->source = 'itunes';
+						$result[] = $aux2;
+					}
+				}else{
+					foreach ($aux as $value) {
+						$aux2 = $value;
+						$aux2->source = 'tvmaze';
+						$result[] = $aux2;
+					}
+				}
+			}
+
+			curl_multi_remove_handle($pm, $response);
+		}
+		curl_multi_close($pm);
+		return $result;
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Multiple queries are configured.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
+	 * @param  array  $urls
+	 * @param  array  $options
+	 * @return method parsed
 	 */
-	public function store(Request $request)
+	public function multipleRequest($urls, $options = array())
 	{
-		//
-	}
+		$curly = array();
+		$pm = curl_multi_init();
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+		foreach ($urls as $key => $url) {
+			$curly[$key] = curl_init();
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
+			if (is_array($url) && !empty($url['url'])) {
+				$url = $url['url'];
+			} else {
+				$url = $url;
+			}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function update(Request $request, $id)
-	{
-		//
-	}
+			curl_setopt($curly[$key], CURLOPT_URL, $url);
+			curl_setopt($curly[$key], CURLOPT_HEADER, 0);
+			curl_setopt($curly[$key], CURLOPT_RETURNTRANSFER, 1);
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy($id)
-	{
-		//
+			if (!empty($url['post'])) {
+				curl_setopt($curly[$key], CURLOPT_POST, 1);
+				curl_setopt($curly[$key], CURLOPT_POSTFIELDS, $url['post']);
+			}
+
+			if (!empty($options)) {
+				curl_setopt_array($curly[$key], $options);
+			}
+
+			curl_multi_add_handle($pm, $curly[$key]);
+		}
+
+		$ejecutando = null;
+
+		do {
+			curl_multi_exec($pm, $ejecutando);
+		} while ($ejecutando > 0);
+
+		return $this->parsed($curly, $pm);
 	}
 
 }
